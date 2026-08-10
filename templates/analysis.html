@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Analysis{% endblock %}
+{% block content %}
+<div class="page">
+
+  <span class="eyebrow">Exploratory Data Analysis</span>
+  <h1 class="display">What the raw data shows</h1>
+  <p class="lede">
+    {{ dataset_stats.n_countries }} countries, {{ dataset_stats.year }}. Before any model was
+    trained, the relationships below are already visible in the numbers &mdash; the model's job
+    is to quantify them, not invent them.
+  </p>
+
+  <section class="block">
+    <h2 class="section-title">Correlation with youth unemployment rate</h2>
+    <p class="section-sub">Pearson correlation of each feature against the target &mdash; the strongest single-number summary of what moves with unemployment.</p>
+    <div class="card">
+      <div class="driver-bars">
+        {% for c in correlations %}
+        <div class="driver-row">
+          <span class="driver-name">{{ c.feature }}</span>
+          <div class="driver-track">
+            {% set pct = (c.value|abs / max_abs_corr * 100) if max_abs_corr > 0 else 0 %}
+            <div class="driver-fill" style="width: {{ pct }}%; background: {% if c.value < 0 %}linear-gradient(90deg, var(--deep-blue), var(--teal)){% else %}linear-gradient(90deg, var(--amber), var(--amber-soft)){% endif %};"></div>
+          </div>
+          <span class="driver-value">{{ '%+.2f'|format(c.value) }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="caveat" style="margin-top:1.4rem;">
+        <strong>Reading this:</strong> negative values mean the feature moves opposite to
+        unemployment (higher GDP &rarr; lower unemployment). Urban population's near-zero
+        correlation is why the final model dropped it entirely.
+      </p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">Feature relationships</h2>
+    <p class="section-sub">Each point is a country. Hover to see which one.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 class="card-title">GDP per Capita vs. Unemployment</h3>
+        <div class="chart-box h-320"><canvas id="scatterGdp"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Education Index vs. Unemployment</h3>
+        <div class="chart-box h-320"><canvas id="scatterEdu"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">Country explorer</h2>
+    <p class="section-sub">All {{ countries|length }} countries in the dataset. Click a column header to sort.</p>
+    <div class="table-wrap">
+      <table class="data-table" id="countryTable">
+        <thead>
+          <tr>
+            <th data-key="country" data-type="string">Country</th>
+            <th data-key="gdp" data-type="number">GDP / Capita ($)</th>
+            <th data-key="education" data-type="number">Education Index</th>
+            <th data-key="urban" data-type="number">Urban Pop. (%)</th>
+            <th data-key="unemployment" data-type="number">Youth Unemployment (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in countries %}
+          <tr>
+            <td>{{ c.country }}</td>
+            <td>{{ '%.0f'|format(c.gdp) }}</td>
+            <td>{{ '%.3f'|format(c.education) }}</td>
+            <td>{{ '%.1f'|format(c.urban) }}</td>
+            <td>{{ '%.1f'|format(c.unemployment) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vendor/chart.umd.min.js') }}"></script>
+<script>
+  const COUNTRIES = {{ countries|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+{% endblock %}

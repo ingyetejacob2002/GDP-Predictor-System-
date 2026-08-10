@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Youth Unemployment in Africa{% endblock %} · Model Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+
+<div class="shell">
+  <button class="navtoggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav class="rail" id="rail">
+    <div class="rail-brand">
+      <span class="rail-brand-mark">YU</span>
+      <span class="rail-brand-text">Model<br>Explorer</span>
+    </div>
+    <ul class="rail-nav">
+      {% for item in nav_items %}
+      <li>
+        <a href="{{ item.href }}" class="rail-link {% if active == item.id %}is-active{% endif %}">
+          <span class="rail-dot"></span>
+          <span class="rail-label">{{ item.label }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="rail-foot">
+      <span class="rail-foot-label">Final model</span>
+      <span class="rail-foot-value">{{ global_final_model.name }} &middot; R&sup2; {{ '%.2f'|format(global_final_model.r2) }}</span>
+    </div>
+  </nav>
+
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

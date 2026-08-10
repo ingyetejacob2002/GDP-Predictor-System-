@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div class="page">
+
+  <span class="eyebrow">Methodology &amp; Caveats</span>
+  <h1 class="display">About this project</h1>
+  <p class="lede">
+    What this tool is, what it isn't, and where it could go next.
+  </p>
+
+  <section class="block">
+    <h2 class="section-title">The dataset</h2>
+    <div class="card">
+      <p style="font-size:0.92rem; line-height:1.6; color:var(--ink); margin:0 0 0.9rem;">
+        {{ dataset_stats.n_countries }} African countries, a single reference year
+        ({{ dataset_stats.year }}), {{ dataset_stats.n_features }} predictor features:
+        GDP per capita, an education index, and urban population share.
+      </p>
+      <p class="caveat" style="margin:0;">
+        <strong>This is illustrative, single-year data</strong> built for a bootcamp
+        exercise &mdash; realistic in shape and correlation structure, but not drawn
+        from live labor-market records. Treat every result on this site as a
+        demonstration of method, not a real economic finding.
+      </p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">Key takeaways</h2>
+    <div class="card">
+      <ul class="about-list">
+        <li>GDP per capita and education are the dominant predictors of youth unemployment in this data &mdash; urbanization showed no reliable independent relationship.</li>
+        <li>Simpler, regularized models ({{ final_model.name }}) matched &mdash; and in several cases beat &mdash; more complex ensembles on this small dataset.</li>
+        <li>Rigorous validation (Leave-One-Out Cross-Validation) mattered more than model complexity for a dataset of this size.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">Next steps</h2>
+    <div class="card">
+      <ul class="about-list">
+        <li>Validate against real, multi-year data (World Bank / ILOSTAT).</li>
+        <li>Add features: internet penetration, informal-sector share, access to finance.</li>
+        <li>Revisit ensemble methods (Random Forest, Gradient Boosting) once more data reduces overfitting risk.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap;">
+      <div>
+        <h2 class="card-title">Explore the model yourself</h2>
+        <p class="card-sub" style="margin-bottom:0;">Try a real country or a custom scenario.</p>
+      </div>
+      <a href="/predict" class="btn btn-solid">Open the predictor &rarr;</a>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

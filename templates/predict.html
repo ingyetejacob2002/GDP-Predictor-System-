@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Predict{% endblock %}
+{% block content %}
+<div class="page">
+
+  <span class="eyebrow">Live Prediction</span>
+  <h1 class="display">Simulate a country profile</h1>
+  <p class="lede">
+    Pick a country to autofill its real values, or drag the sliders to explore
+    a hypothetical scenario. The prediction comes from the deployed
+    {{ final_model.name }} model &mdash; the same one benchmarked on the Models page.
+  </p>
+
+  <section class="block predict-layout">
+    <div class="card">
+      <h2 class="card-title">Country profile</h2>
+      <p class="card-sub">Start from a real country, then adjust freely.</p>
+
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">Country</span>
+        </div>
+        <select id="countrySelect" class="country-select">
+          <option value="">&mdash; Custom scenario &mdash;</option>
+          {% for c in countries %}
+          <option value="{{ c.country }}" data-gdp="{{ c.gdp }}" data-education="{{ c.education }}" data-urban="{{ c.urban }}">{{ c.country }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">GDP per Capita</span>
+          <span class="field-value" id="gdpValue">${{ feature_meta.GDP_Per_Capita.default }}</span>
+        </div>
+        <input type="range" id="gdpSlider"
+               min="{{ feature_meta.GDP_Per_Capita.min }}" max="{{ feature_meta.GDP_Per_Capita.max }}"
+               step="{{ feature_meta.GDP_Per_Capita.step }}" value="{{ feature_meta.GDP_Per_Capita.default }}">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">Education Index</span>
+          <span class="field-value" id="eduValue">{{ feature_meta.Education_Index.default }}</span>
+        </div>
+        <input type="range" id="eduSlider"
+               min="{{ feature_meta.Education_Index.min }}" max="{{ feature_meta.Education_Index.max }}"
+               step="{{ feature_meta.Education_Index.step }}" value="{{ feature_meta.Education_Index.default }}">
+      </div>
+
+      <div class="field-group" style="margin-bottom:0.4rem;">
+        <div class="field-label-row">
+          <span class="field-label">Urban Population</span>
+          <span class="field-value" id="urbanValue">{{ feature_meta.Urban_Population_Percent.default }}%</span>
+        </div>
+        <input type="range" id="urbanSlider"
+               min="{{ feature_meta.Urban_Population_Percent.min }}" max="{{ feature_meta.Urban_Population_Percent.max }}"
+               step="{{ feature_meta.Urban_Population_Percent.step }}" value="{{ feature_meta.Urban_Population_Percent.default }}">
+      </div>
+
+      <p class="caveat" style="margin-top:1.5rem;">
+        <strong>Reminder:</strong> this model was trained on {{ dataset_stats.n_countries }}
+        illustrative, single-year records. Treat predictions as a demonstration of the
+        method, not a real economic forecast.
+      </p>
+    </div>
+
+    <div class="predict-result">
+      <span class="result-label">Predicted youth unemployment</span>
+      <div>
+        <span class="result-value" id="resultValue">&mdash;</span><span class="result-unit">%</span>
+      </div>
+
+      <hr class="result-divider">
+
+      <span class="result-label">Where this falls</span>
+      <div class="range-bar">
+        <div class="range-bar-fill" id="rangeFill" style="left: 0%;"></div>
+      </div>
+      <p class="result-meta" id="percentileText">&mdash;</p>
+
+      <hr class="result-divider">
+
+      <p class="result-meta">
+        Expected error: &plusmn;{{ '%.2f'|format(final_model.mae) }} percentage points
+        (LOOCV mean absolute error of the deployed model).
+      </p>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const FEATURE_META = {{ feature_meta|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

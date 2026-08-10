@@ -1,0 +1,608 @@
+{
+  "features": [
+    "GDP_Per_Capita",
+    "Education_Index",
+    "Urban_Population_Percent"
+  ],
+  "feature_meta": {
+    "GDP_Per_Capita": {
+      "label": "GDP per Capita",
+      "unit": "$",
+      "min": 500,
+      "max": 10000,
+      "step": 50,
+      "default": 2500
+    },
+    "Education_Index": {
+      "label": "Education Index",
+      "unit": "",
+      "min": 0.4,
+      "max": 0.85,
+      "step": 0.01,
+      "default": 0.58
+    },
+    "Urban_Population_Percent": {
+      "label": "Urban Population",
+      "unit": "%",
+      "min": 15,
+      "max": 80,
+      "step": 0.5,
+      "default": 45.0
+    }
+  },
+  "model_results": [
+    {
+      "name": "Gradient Boosting",
+      "mae": 1.773,
+      "rmse": 2.272,
+      "r2": 0.71
+    },
+    {
+      "name": "KNN",
+      "mae": 1.817,
+      "rmse": 2.256,
+      "r2": 0.714
+    },
+    {
+      "name": "Random Forest",
+      "mae": 1.829,
+      "rmse": 2.397,
+      "r2": 0.677
+    },
+    {
+      "name": "SVR (RBF)",
+      "mae": 1.854,
+      "rmse": 2.41,
+      "r2": 0.673
+    },
+    {
+      "name": "Lasso",
+      "mae": 1.858,
+      "rmse": 2.262,
+      "r2": 0.712
+    },
+    {
+      "name": "Linear Regression",
+      "mae": 1.87,
+      "rmse": 2.296,
+      "r2": 0.703
+    },
+    {
+      "name": "Ridge",
+      "mae": 1.87,
+      "rmse": 2.289,
+      "r2": 0.706
+    },
+    {
+      "name": "ElasticNet",
+      "mae": 1.871,
+      "rmse": 2.268,
+      "r2": 0.711
+    }
+  ],
+  "final_model": {
+    "name": "Lasso Regression",
+    "mae": 1.858,
+    "rmse": 2.262,
+    "r2": 0.712,
+    "best_model_name": "Gradient Boosting",
+    "best_model_mae": 1.773
+  },
+  "coefficients": [
+    {
+      "feature": "GDP per Capita",
+      "value": -3.347
+    },
+    {
+      "feature": "Education Index",
+      "value": -0.622
+    },
+    {
+      "feature": "Urban Population",
+      "value": -0.0
+    }
+  ],
+  "correlations": [
+    {
+      "feature": "GDP per Capita",
+      "value": -0.862
+    },
+    {
+      "feature": "Education Index",
+      "value": -0.412
+    },
+    {
+      "feature": "Urban Population",
+      "value": 0.201
+    }
+  ],
+  "countries": [
+    {
+      "country": "Algeria",
+      "gdp": 4496.5,
+      "education": 0.614,
+      "urban": 28.5,
+      "unemployment": 13.2
+    },
+    {
+      "country": "Angola",
+      "gdp": 1163.98,
+      "education": 0.543,
+      "urban": 36.5,
+      "unemployment": 19.0
+    },
+    {
+      "country": "Benin",
+      "gdp": 2994.8,
+      "education": 0.603,
+      "urban": 69.7,
+      "unemployment": 12.3
+    },
+    {
+      "country": "Botswana",
+      "gdp": 1728.75,
+      "education": 0.691,
+      "urban": 22.2,
+      "unemployment": 15.4
+    },
+    {
+      "country": "Burkina Faso",
+      "gdp": 6328.06,
+      "education": 0.598,
+      "urban": 47.8,
+      "unemployment": 7.3
+    },
+    {
+      "country": "Cameroon",
+      "gdp": 7777.97,
+      "education": 0.683,
+      "urban": 71.6,
+      "unemployment": 6.5
+    },
+    {
+      "country": "C\u00f4te d'Ivoire",
+      "gdp": 7429.68,
+      "education": 0.477,
+      "urban": 29.2,
+      "unemployment": 9.4
+    },
+    {
+      "country": "DR Congo",
+      "gdp": 4369.56,
+      "education": 0.465,
+      "urban": 33.9,
+      "unemployment": 10.9
+    },
+    {
+      "country": "Djibouti",
+      "gdp": 2434.75,
+      "education": 0.668,
+      "urban": 39.0,
+      "unemployment": 16.9
+    },
+    {
+      "country": "Egypt",
+      "gdp": 3374.44,
+      "education": 0.587,
+      "urban": 62.8,
+      "unemployment": 11.2
+    },
+    {
+      "country": "Eritrea",
+      "gdp": 2467.0,
+      "education": 0.652,
+      "urban": 61.4,
+      "unemployment": 13.9
+    },
+    {
+      "country": "Eswatini",
+      "gdp": 2321.39,
+      "education": 0.486,
+      "urban": 37.2,
+      "unemployment": 15.8
+    },
+    {
+      "country": "Ethiopia",
+      "gdp": 2157.62,
+      "education": 0.604,
+      "urban": 51.8,
+      "unemployment": 14.9
+    },
+    {
+      "country": "Gambia",
+      "gdp": 7215.68,
+      "education": 0.612,
+      "urban": 64.0,
+      "unemployment": 6.4
+    },
+    {
+      "country": "Ghana",
+      "gdp": 5088.14,
+      "education": 0.662,
+      "urban": 19.2,
+      "unemployment": 7.6
+    },
+    {
+      "country": "Guinea",
+      "gdp": 4329.91,
+      "education": 0.54,
+      "urban": 34.2,
+      "unemployment": 11.7
+    },
+    {
+      "country": "Kenya",
+      "gdp": 1838.76,
+      "education": 0.467,
+      "urban": 67.4,
+      "unemployment": 17.2
+    },
+    {
+      "country": "Lesotho",
+      "gdp": 6671.51,
+      "education": 0.708,
+      "urban": 18.4,
+      "unemployment": 3.0
+    },
+    {
+      "country": "Liberia",
+      "gdp": 7061.66,
+      "education": 0.691,
+      "urban": 28.6,
+      "unemployment": 8.9
+    },
+    {
+      "country": "Malawi",
+      "gdp": 1503.38,
+      "education": 0.518,
+      "urban": 42.3,
+      "unemployment": 17.7
+    },
+    {
+      "country": "Mali",
+      "gdp": 5906.69,
+      "education": 0.678,
+      "urban": 50.0,
+      "unemployment": 8.1
+    },
+    {
+      "country": "Mauritius",
+      "gdp": 7583.24,
+      "education": 0.547,
+      "urban": 47.6,
+      "unemployment": 4.4
+    },
+    {
+      "country": "Morocco",
+      "gdp": 3913.11,
+      "education": 0.487,
+      "urban": 46.2,
+      "unemployment": 11.2
+    },
+    {
+      "country": "Mozambique",
+      "gdp": 3316.8,
+      "education": 0.485,
+      "urban": 67.2,
+      "unemployment": 10.3
+    },
+    {
+      "country": "Namibia",
+      "gdp": 6021.75,
+      "education": 0.681,
+      "urban": 22.2,
+      "unemployment": 9.8
+    },
+    {
+      "country": "Niger",
+      "gdp": 1487.61,
+      "education": 0.459,
+      "urban": 54.3,
+      "unemployment": 16.6
+    },
+    {
+      "country": "Nigeria",
+      "gdp": 3434.14,
+      "education": 0.735,
+      "urban": 59.7,
+      "unemployment": 9.0
+    },
+    {
+      "country": "Rwanda",
+      "gdp": 3853.2,
+      "education": 0.537,
+      "urban": 52.9,
+      "unemployment": 11.5
+    },
+    {
+      "country": "Senegal",
+      "gdp": 1944.83,
+      "education": 0.47,
+      "urban": 72.1,
+      "unemployment": 15.1
+    },
+    {
+      "country": "Seychelles",
+      "gdp": 7794.01,
+      "education": 0.739,
+      "urban": 32.4,
+      "unemployment": 8.2
+    },
+    {
+      "country": "Sierra Leone",
+      "gdp": 2815.19,
+      "education": 0.498,
+      "urban": 71.0,
+      "unemployment": 16.1
+    },
+    {
+      "country": "Somalia",
+      "gdp": 7330.34,
+      "education": 0.522,
+      "urban": 26.3,
+      "unemployment": 7.8
+    },
+    {
+      "country": "South Africa",
+      "gdp": 2038.85,
+      "education": 0.541,
+      "urban": 47.9,
+      "unemployment": 13.9
+    },
+    {
+      "country": "Sudan",
+      "gdp": 4611.16,
+      "education": 0.477,
+      "urban": 65.6,
+      "unemployment": 15.7
+    },
+    {
+      "country": "Tanzania",
+      "gdp": 951.04,
+      "education": 0.723,
+      "urban": 32.8,
+      "unemployment": 11.9
+    },
+    {
+      "country": "Togo",
+      "gdp": 6215.52,
+      "education": 0.519,
+      "urban": 22.4,
+      "unemployment": 4.8
+    },
+    {
+      "country": "Tunisia",
+      "gdp": 6026.13,
+      "education": 0.641,
+      "urban": 68.6,
+      "unemployment": 6.2
+    },
+    {
+      "country": "Uganda",
+      "gdp": 7749.11,
+      "education": 0.693,
+      "urban": 35.4,
+      "unemployment": 5.9
+    },
+    {
+      "country": "Zambia",
+      "gdp": 1030.16,
+      "education": 0.548,
+      "urban": 40.2,
+      "unemployment": 18.4
+    },
+    {
+      "country": "Zimbabwe",
+      "gdp": 3304.3,
+      "education": 0.534,
+      "urban": 48.9,
+      "unemployment": 12.0
+    }
+  ],
+  "pred_vs_actual": [
+    {
+      "country": "Nigeria",
+      "actual": 9.0,
+      "predicted": 11.9
+    },
+    {
+      "country": "Kenya",
+      "actual": 17.2,
+      "predicted": 15.75
+    },
+    {
+      "country": "Ghana",
+      "actual": 7.6,
+      "predicted": 9.75
+    },
+    {
+      "country": "South Africa",
+      "actual": 13.9,
+      "predicted": 15.1
+    },
+    {
+      "country": "Rwanda",
+      "actual": 11.5,
+      "predicted": 12.37
+    },
+    {
+      "country": "Egypt",
+      "actual": 11.2,
+      "predicted": 12.75
+    },
+    {
+      "country": "Ethiopia",
+      "actual": 14.9,
+      "predicted": 14.38
+    },
+    {
+      "country": "Senegal",
+      "actual": 15.1,
+      "predicted": 15.73
+    },
+    {
+      "country": "Uganda",
+      "actual": 5.9,
+      "predicted": 5.31
+    },
+    {
+      "country": "Morocco",
+      "actual": 11.2,
+      "predicted": 12.69
+    },
+    {
+      "country": "Tanzania",
+      "actual": 11.9,
+      "predicted": 16.25
+    },
+    {
+      "country": "Algeria",
+      "actual": 13.2,
+      "predicted": 10.76
+    },
+    {
+      "country": "Cameroon",
+      "actual": 6.5,
+      "predicted": 5.19
+    },
+    {
+      "country": "C\u00f4te d'Ivoire",
+      "actual": 9.4,
+      "predicted": 7.03
+    },
+    {
+      "country": "Zambia",
+      "actual": 18.4,
+      "predicted": 16.35
+    },
+    {
+      "country": "Zimbabwe",
+      "actual": 12.0,
+      "predicted": 13.23
+    },
+    {
+      "country": "Botswana",
+      "actual": 15.4,
+      "predicted": 14.3
+    },
+    {
+      "country": "Namibia",
+      "actual": 9.8,
+      "predicted": 7.95
+    },
+    {
+      "country": "Mozambique",
+      "actual": 10.3,
+      "predicted": 13.71
+    },
+    {
+      "country": "Angola",
+      "actual": 19.0,
+      "predicted": 16.13
+    },
+    {
+      "country": "Tunisia",
+      "actual": 6.2,
+      "predicted": 8.44
+    },
+    {
+      "country": "Mali",
+      "actual": 8.1,
+      "predicted": 8.26
+    },
+    {
+      "country": "Burkina Faso",
+      "actual": 7.3,
+      "predicted": 8.23
+    },
+    {
+      "country": "Niger",
+      "actual": 16.6,
+      "predicted": 16.44
+    },
+    {
+      "country": "Benin",
+      "actual": 12.3,
+      "predicted": 13.19
+    },
+    {
+      "country": "Togo",
+      "actual": 4.8,
+      "predicted": 9.47
+    },
+    {
+      "country": "Sierra Leone",
+      "actual": 16.1,
+      "predicted": 14.03
+    },
+    {
+      "country": "Liberia",
+      "actual": 8.9,
+      "predicted": 6.2
+    },
+    {
+      "country": "Gambia",
+      "actual": 6.4,
+      "predicted": 6.78
+    },
+    {
+      "country": "Malawi",
+      "actual": 17.7,
+      "predicted": 15.88
+    },
+    {
+      "country": "Lesotho",
+      "actual": 3.0,
+      "predicted": 7.4
+    },
+    {
+      "country": "Eswatini",
+      "actual": 15.8,
+      "predicted": 14.95
+    },
+    {
+      "country": "Mauritius",
+      "actual": 4.4,
+      "predicted": 6.92
+    },
+    {
+      "country": "Seychelles",
+      "actual": 8.2,
+      "predicted": 4.48
+    },
+    {
+      "country": "Guinea",
+      "actual": 11.7,
+      "predicted": 11.6
+    },
+    {
+      "country": "DR Congo",
+      "actual": 10.9,
+      "predicted": 12.18
+    },
+    {
+      "country": "Somalia",
+      "actual": 7.8,
+      "predicted": 7.15
+    },
+    {
+      "country": "Eritrea",
+      "actual": 13.9,
+      "predicted": 13.58
+    },
+    {
+      "country": "Djibouti",
+      "actual": 16.9,
+      "predicted": 13.24
+    },
+    {
+      "country": "Sudan",
+      "actual": 15.7,
+      "predicted": 11.24
+    }
+  ],
+  "dataset_stats": {
+    "n_countries": 40,
+    "year": 2021,
+    "n_features": 3
+  }
+}

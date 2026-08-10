@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Models{% endblock %}
+{% block content %}
+<div class="page">
+
+  <span class="eyebrow">Methodology &amp; Model Comparison</span>
+  <h1 class="display">8 algorithms, one honest evaluation</h1>
+  <p class="lede">
+    With only {{ pred_vs_actual|length }} rows, how you validate matters as much as
+    which algorithm you pick. Here's the full comparison, and why the model that
+    "won" isn't the one deployed.
+  </p>
+
+  <section class="block">
+    <h2 class="section-title">Why a single train/test split isn't enough</h2>
+    <div class="grid grid-2">
+      <div class="compare-card tone-problem">
+        <span class="compare-label">The problem</span>
+        <p>With only {{ pred_vs_actual|length }} countries, one fixed 70/30 split means the result depends heavily on which rows happen to land in the test set.</p>
+        <p>Run the split a different way and the "best" model could easily change &mdash; the estimate is noisy, not trustworthy.</p>
+      </div>
+      <div class="compare-card tone-fix">
+        <span class="compare-label">The fix: Leave-One-Out CV</span>
+        <p>Train on {{ pred_vs_actual|length - 1 }} countries, test on the 1 left out &mdash; repeat {{ pred_vs_actual|length }} times so every country is tested exactly once.</p>
+        <p>Average the results for a stable, low-variance performance estimate &mdash; the right approach for a dataset this size.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">LOOCV performance across all 8 models</h2>
+    <p class="section-sub">Mean Absolute Error in percentage points &mdash; lower is better.</p>
+    <div class="card">
+      <div class="chart-box h-380"><canvas id="modelChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="grid" style="grid-template-columns: 1.1fr 0.9fr; gap:1.4rem;">
+      <div class="card">
+        <span class="tag tag-amber">Final choice</span>
+        <h2 class="card-title" style="margin-top:0.9rem;">{{ final_model.name }}</h2>
+        <p class="card-sub">
+          {{ final_model.best_model_name }} posted the lowest LOOCV MAE
+          ({{ '%.3f'|format(final_model.best_model_mae) }}), but it's only marginally
+          ahead of several regularized linear models &mdash; all within a fraction of a
+          percentage point. Random Forest and SVR actually underperform plain Linear
+          Regression here.
+        </p>
+        <p class="card-sub">
+          That pattern makes sense: the underlying relationship is close to linear
+          (dominated by GDP and Education), and with only {{ pred_vs_actual|length }}
+          data points there isn't enough signal for tree ensembles or kernel methods
+          to reliably learn extra non-linear structure &mdash; they're more prone to
+          overfitting noise.
+        </p>
+        <p class="card-sub" style="margin-bottom:0;">
+          <strong style="color:var(--ink);">Lasso Regression</strong> performs
+          statistically indistinguishably from the top scorer, while staying
+          interpretable, stable on small data, and it automatically drops the
+          weak <code>Urban Population %</code> feature via L1 regularization.
+        </p>
+      </div>
+
+      <div class="stat-card card">
+        <span class="stat-value">{{ '%.3f'|format(final_model.mae) }}</span>
+        <span class="stat-label">Final model LOOCV MAE</span>
+        <div style="height:1.3rem;"></div>
+        <span class="stat-value">{{ '%.3f'|format(final_model.r2) }}</span>
+        <span class="stat-label">Final model LOOCV R&sup2;</span>
+        <div style="height:1.3rem;"></div>
+        <span class="stat-value">{{ '%.3f'|format(final_model.best_model_mae) }}</span>
+        <span class="stat-label">Best-scoring model's MAE ({{ final_model.best_model_name }})</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="section-title">Predicted vs. actual (final model, LOOCV)</h2>
+    <p class="section-sub">Each point is one country's held-out prediction. Points closer to the dashed line are more accurate.</p>
+    <div class="card">
+      <div class="chart-box h-440"><canvas id="predActualChart"></canvas></div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vendor/chart.umd.min.js') }}"></script>
+<script>
+  const MODEL_RESULTS = {{ model_results|tojson }};
+  const FINAL_MODEL_NAME = {{ final_model.name|tojson }};
+  const PRED_VS_ACTUAL = {{ pred_vs_actual|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/models.js') }}"></script>
+{% endblock %}
