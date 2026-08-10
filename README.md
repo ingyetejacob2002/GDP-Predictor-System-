@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Youth Unemployment in Africa — Model Explorer
 
 An interactive, multi-page web app built on top of the youth unemployment
@@ -58,3 +59,6 @@ static/
   internet access once dependencies are installed. Google Fonts (Fraunces,
   IBM Plex Sans/Mono) are still loaded from Google's CDN in `base.html` — if
   you need a fully offline version, download and self-host those too.
+=======
+# GDP-Predictor
+>>>>>>> 0af24262d1a1f2db5debfcff987471c82c883691
